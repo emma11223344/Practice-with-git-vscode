@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Clock - Multiple Time Zones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 32px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .clock {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .timezone {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 18px;
+            background: #e9ecef;
+            border-radius: 6px;
+        }
+        .tz-label {
+            font-weight: bold;
+        }
+        .tz-time {
+            font-size: 1.2em;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Global Clock</h1>
+        <div class="clock" id="clock">
+            <!-- Time zones will be inserted here -->
+        </div>
+    </div>
+    <script>
+        const timeZones = [
+            { label: 'UTC', zone: 'UTC' },
+            { label: 'New York (EST)', zone: 'America/New_York' },
+            { label: 'London (BST)', zone: 'Europe/London' },
+            { label: 'Tokyo (JST)', zone: 'Asia/Tokyo' },
+            { label: 'Sydney (AEST)', zone: 'Australia/Sydney' },
+        ];
+
+        function updateClocks() {
+            const clockDiv = document.getElementById('clock');
+            clockDiv.innerHTML = '';
+            const now = new Date();
+            timeZones.forEach(tz => {
+                const time = now.toLocaleTimeString('en-US', {
+                    timeZone: tz.zone,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                });
+                const tzDiv = document.createElement('div');
+                tzDiv.className = 'timezone';
+                tzDiv.innerHTML = `<span class="tz-label">${tz.label}</span><span class="tz-time">${time}</span>`;
+                clockDiv.appendChild(tzDiv);
+            });
+        }
+        updateClocks();
+        setInterval(updateClocks, 1000);
+    </script>
+</body>
+</html>
