@@ -6,42 +6,112 @@
     <title>Global Clock - Multiple Time Zones</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #e0eafc, #cfdef3);
             margin: 0;
             padding: 0;
         }
         .container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 40px auto;
             background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+            padding: 40px 32px;
         }
         h1 {
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 32px;
+            font-size: 2.2em;
+            color: #2a3d66;
         }
         .clock {
             display: flex;
-            flex-direction: column;
-            gap: 18px;
+            flex-wrap: wrap;
+            gap: 32px;
+            justify-content: center;
         }
         .timezone {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            padding: 12px 18px;
-            background: #e9ecef;
-            border-radius: 6px;
+            background: #f7fafd;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            padding: 24px 18px 18px 18px;
+            min-width: 180px;
+            min-height: 220px;
+            position: relative;
         }
         .tz-label {
             font-weight: bold;
+            margin-bottom: 12px;
+            color: #2a3d66;
+            font-size: 1.1em;
         }
         .tz-time {
             font-size: 1.2em;
             letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        .analog-clock {
+            width: 90px;
+            height: 90px;
+            background: #e0eafc;
+            border: 4px solid #2a3d66;
+            border-radius: 50%;
+            position: relative;
+            margin-bottom: 16px;
+            margin-top: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .hand {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform-origin: bottom center;
+            background: #2a3d66;
+        }
+        .hand.hour {
+            width: 6px;
+            height: 26px;
+            margin-left: -3px;
+            margin-top: -26px;
+            border-radius: 3px;
+            z-index: 2;
+        }
+        .hand.minute {
+            width: 4px;
+            height: 36px;
+            margin-left: -2px;
+            margin-top: -36px;
+            border-radius: 2px;
+            background: #3e5c9a;
+            z-index: 2;
+        }
+        .hand.second {
+            width: 2px;
+            height: 40px;
+            margin-left: -1px;
+            margin-top: -40px;
+            background: #e74c3c;
+            border-radius: 1px;
+            z-index: 3;
+        }
+        .center-dot {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 12px;
+            height: 12px;
+            background: #2a3d66;
+            border-radius: 50%;
+            margin-left: -6px;
+            margin-top: -6px;
+            z-index: 4;
         }
     </style>
 </head>
@@ -51,15 +121,68 @@
         <div class="clock" id="clock">
             <!-- Time zones will be inserted here -->
         </div>
+        
+        <div style="text-align:center; margin-top:32px;">
+            <a href="timezone-countries.html" style="display:inline-block; padding:12px 28px; font-size:1.1em; border-radius:8px; border:none; background:#3e5c9a; color:#fff; text-decoration:none; font-weight:bold; box-shadow:0 2px 8px rgba(0,0,0,0.08); cursor:pointer;">Examples of countries in each timezone</a>
+        </div>
     </div>
     <script>
         const timeZones = [
-            { label: 'UTC', zone: 'UTC' },
-            { label: 'New York (EST)', zone: 'America/New_York' },
-            { label: 'London (BST)', zone: 'Europe/London' },
-            { label: 'Tokyo (JST)', zone: 'Asia/Tokyo' },
-            { label: 'Sydney (AEST)', zone: 'Australia/Sydney' },
+            { label: 'Coordinated Universal Time (UTC)', zone: 'UTC' },
+            { label: 'Eastern Time (ET) - New York', zone: 'America/New_York' },
+            { label: 'Greenwich Mean Time (GMT) / British Summer Time (BST) - London', zone: 'Europe/London' },
+            { label: 'Japan Standard Time (JST) - Tokyo', zone: 'Asia/Tokyo' },
+            { label: 'Australian Eastern Standard Time (AEST) - Sydney', zone: 'Australia/Sydney' },
         ];
+
+        function getTimeParts(date, timeZone) {
+            const locale = 'en-US';
+            const options = {
+                timeZone,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+            const parts = new Intl.DateTimeFormat(locale, options).formatToParts(date);
+            let hour = 0, minute = 0, second = 0;
+            parts.forEach(p => {
+                if (p.type === 'hour') hour = parseInt(p.value);
+                if (p.type === 'minute') minute = parseInt(p.value);
+                if (p.type === 'second') second = parseInt(p.value);
+            });
+            return { hour, minute, second };
+        }
+
+        function createAnalogClock(hour, minute, second) {
+            // Calculate angles
+            const hourAngle = ((hour % 12) + minute / 60) * 30;
+            const minuteAngle = (minute + second / 60) * 6;
+            const secondAngle = second * 6;
+            // Create clock
+            const clock = document.createElement('div');
+            clock.className = 'analog-clock';
+            // Hour hand
+            const hourHand = document.createElement('div');
+            hourHand.className = 'hand hour';
+            hourHand.style.transform = `rotate(${hourAngle}deg)`;
+            clock.appendChild(hourHand);
+            // Minute hand
+            const minuteHand = document.createElement('div');
+            minuteHand.className = 'hand minute';
+            minuteHand.style.transform = `rotate(${minuteAngle}deg)`;
+            clock.appendChild(minuteHand);
+            // Second hand
+            const secondHand = document.createElement('div');
+            secondHand.className = 'hand second';
+            secondHand.style.transform = `rotate(${secondAngle}deg)`;
+            clock.appendChild(secondHand);
+            // Center dot
+            const centerDot = document.createElement('div');
+            centerDot.className = 'center-dot';
+            clock.appendChild(centerDot);
+            return clock;
+        }
 
         function updateClocks() {
             const clockDiv = document.getElementById('clock');
@@ -72,14 +195,27 @@
                     minute: '2-digit',
                     second: '2-digit',
                 });
+                const { hour, minute, second } = getTimeParts(now, tz.zone);
                 const tzDiv = document.createElement('div');
                 tzDiv.className = 'timezone';
-                tzDiv.innerHTML = `<span class="tz-label">${tz.label}</span><span class="tz-time">${time}</span>`;
+                // Analog clock
+                const analog = createAnalogClock(hour, minute, second);
+                tzDiv.appendChild(analog);
+                // Add label and digital time below clock
+                const labelSpan = document.createElement('span');
+                labelSpan.className = 'tz-label';
+                labelSpan.textContent = tz.label;
+                tzDiv.appendChild(labelSpan);
+                const timeSpan = document.createElement('span');
+                timeSpan.className = 'tz-time';
+                timeSpan.textContent = time;
+                tzDiv.appendChild(timeSpan);
                 clockDiv.appendChild(tzDiv);
             });
         }
         updateClocks();
         setInterval(updateClocks, 1000);
+        // ...existing code...
     </script>
 </body>
 </html>

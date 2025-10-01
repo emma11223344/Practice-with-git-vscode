@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Zone Country Examples</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #e0eafc, #cfdef3);
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+            padding: 40px 32px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 32px;
+            font-size: 2em;
+            color: #2a3d66;
+        }
+        .tz-list {
+            margin-top: 24px;
+        }
+        .tz-item {
+            background: #f7fafd;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            padding: 18px 24px;
+            margin-bottom: 18px;
+        }
+        .tz-label {
+            font-weight: bold;
+            color: #2a3d66;
+            font-size: 1.1em;
+        }
+        .country-list {
+            margin-top: 8px;
+            margin-left: 18px;
+            list-style: none;
+            padding: 0;
+        }
+        .country-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .country-img {
+            width: 40px;
+            height: 28px;
+            object-fit: cover;
+            border-radius: 4px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+        }
+        a {
+            color: #3e5c9a;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Countries in Each Time Zone</h1>
+        <div class="tz-list">
+            <div class="tz-item">
+                <span class="tz-label">UTC</span>
+                <ul class="country-list">
+                    <li class="country-item"><img class="country-img" src="https://flagcdn.com/is.svg" alt="Iceland flag">Iceland</li>
+                    <li class="country-item"><img class="country-img" src="https://flagcdn.com/bf.svg" alt="Burkina Faso flag">Burkina Faso</li>
+                    <li class="country-item"><img class="country-img" src="https://flagcdn.com/gm.svg" alt="Gambia flag">Gambia</li>
+                    <li class="country-item"><img class="country-img" src="https://flagcdn.com/ml.svg" alt="Mali flag">Mali</li>
+                </ul>
+            </div>
+            <div class="tz-item">
+                <span class="tz-label">New York (EST/EDT)</span>
+                <ul class="country-list">
+                    <li class="country-item"><img class="country-img" src="https://flagcdn.com/us.svg" alt="USA flag">United States (East Coast)</li>
+                    <li class="country-item"><img class="country-img" src="https://flagcdn.com/ca.svg" alt="Canada flag">Canada (Ontario, Quebec)</li>
+                    <li class="country-item"><img class="country-img" src="https://flagcdn.com/bs.svg" alt="Bahamas flag">Bahamas</li>
+                    <li class="country-item"><img class="country-img" src="https://flagcdn.com/jm.svg" alt="Jamaica flag">Jamaica</li>
+                </ul>
+            </div>
+            <div class="tz-item">
+                <span class="tz-label">London (BST/GMT)</span>
+                <ul class="country-list">
+                    <li class="country-item"><img class="country-img" src="https://flagcdn.com/gb.svg" alt="UK flag">United Kingdom</li>
+                    <li class="country-item"><img class="country-img" src="https://flagcdn.com/ie.svg" alt="Ireland flag">Ireland</li>
+                    <li class="country-item"><img class="country-img" src="https://flagcdn.com/pt.svg" alt="Portugal flag">Portugal</li>
+                    <li class="country-item"><img class="country-img" src="https://flagcdn.com/ma.svg" alt="Morocco flag">Morocco</li>
+                </ul>
+            </div>
+            <div class="tz-item">
+                <span class="tz-label">Tokyo (JST)</span>
+                <ul class="country-list">
+                    <li class="country-item"><img class="country-img" src="https://flagcdn.com/jp.svg" alt="Japan flag">Japan</li>
+                    <li class="country-item"><img class="country-img" src="https://flagcdn.com/kr.svg" alt="South Korea flag">South Korea</li>
+                    <li class="country-item"><img class="country-img" src="https://flagcdn.com/pw.svg" alt="Palau flag">Palau</li>
+                    <li class="country-item"><img class="country-img" src="https://flagcdn.com/tl.svg" alt="East Timor flag">East Timor</li>
+                </ul>
+            </div>
+            <div class="tz-item">
+                <span class="tz-label">Sydney (AEST)</span>
+                <ul class="country-list">
+                    <li class="country-item"><img class="country-img" src="https://flagcdn.com/au.svg" alt="Australia flag">Australia (East)</li>
+                    <li class="country-item"><img class="country-img" src="https://flagcdn.com/pg.svg" alt="Papua New Guinea flag">Papua New Guinea</li>
+                    <li class="country-item"><img class="country-img" src="https://flagcdn.com/gu.svg" alt="Guam flag">Guam</li>
+                    <li class="country-item"><img class="country-img" src="https://flagcdn.com/fm.svg" alt="Micronesia flag">Micronesia</li>
+                </ul>
+            </div>
+        </div>
+        <div style="text-align:center; margin-top:32px;">
+            <a href="global-clock.html">&#8592; Back to Global Clock</a>
+        </div>
+    </div>
+</body>
+</html>
